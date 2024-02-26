@@ -3,6 +3,7 @@ package com.example.top_trumps_start_code.controllers;
 import com.example.top_trumps_start_code.models.Card;
 import com.example.top_trumps_start_code.models.Deck;
 import com.example.top_trumps_start_code.models.Reply;
+import com.example.top_trumps_start_code.services.DeckTopTrumpService;
 import com.example.top_trumps_start_code.services.TopTrumpService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class TopTrumpsController {
 
     @Autowired
     TopTrumpService topTrumpService;
+    DeckTopTrumpService deckTopTrumpService;
 
     @PostMapping
     public ResponseEntity<Reply> createGame(@RequestBody ArrayList<Card> match){
@@ -34,6 +36,13 @@ public class TopTrumpsController {
     @PostMapping(value = "/deckGame")
     public ResponseEntity<Deck> createDeck(){
         Deck deck = new Deck();
+        deckTopTrumpService = new DeckTopTrumpService(deck);
         return new ResponseEntity<>(deck,HttpStatus.CREATED);
+    }
+
+    @PostMapping(value = "/deckGame")
+    public ResponseEntity<Reply> playDeck(@RequestBody ArrayList<Card> match){
+        Reply reply = deckTopTrumpService.checkWinner(match);
+        return new ResponseEntity<>(reply, HttpStatus.CREATED);
     }
 }
