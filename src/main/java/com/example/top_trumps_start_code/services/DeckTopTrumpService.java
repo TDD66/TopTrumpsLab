@@ -13,6 +13,9 @@ public class DeckTopTrumpService {
 
     Deck deck;
 
+    public DeckTopTrumpService(){
+    }
+
     public DeckTopTrumpService(Deck deck){
         this.deck = deck;
     }
@@ -44,11 +47,34 @@ public class DeckTopTrumpService {
         }
         return true;
     }
+
+    private void makeCardUnplayable(Card card){
+        if(card.getSuit().equals(Suit.HEARTS)){
+            int rank = card.getCardValue() - 2;
+            deck.getHearts().set(rank, false);
+        }
+        if(card.getSuit().equals(Suit.DIAMONDS)) {
+            int rank = card.getCardValue() - 2;
+            deck.getDiamonds().set(rank, false);
+        }
+        if(card.getSuit().equals(Suit.CLUBS)) {
+            int rank = card.getCardValue() - 2;
+            deck.getClubs().set(rank, false);
+        }
+        if(card.getSuit().equals(Suit.SPADES)) {
+            int rank = card.getCardValue() - 2;
+            deck.getSpades().set(rank, false);
+        }
+    }
     public Reply checkWinner(ArrayList<Card> match){
 //        checks if card is eligible
-        if (checkEligibility(match.get(0))|| checkEligibility(match.get(1))){
-            return "Card"
+        if (!checkEligibility(match.get(0)) || !checkEligibility(match.get(1))){
+            return new Reply("Card has already been played");
         }
+//        Make cards unplayable
+        makeCardUnplayable(match.get(0));
+        makeCardUnplayable(match.get(1));
+
 //        Checks which card ranks higher or draws
         if(match.get(0).getRank().equals(match.get(1).getRank())){
             return new Reply("It's a draw");

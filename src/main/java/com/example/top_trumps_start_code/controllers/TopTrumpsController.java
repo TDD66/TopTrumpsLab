@@ -33,16 +33,16 @@ public class TopTrumpsController {
         return new ResponseEntity<>(reply, HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "/deckGame")
+    @PostMapping(value = "/createDeck")
     public ResponseEntity<Deck> createDeck(){
         Deck deck = new Deck();
         deckTopTrumpService = new DeckTopTrumpService(deck);
         return new ResponseEntity<>(deck,HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "/deckGame")
+    @PostMapping(value = "/playDeck")
     public ResponseEntity<Reply> playDeck(@RequestBody ArrayList<Card> match){
         Reply reply = deckTopTrumpService.checkWinner(match);
-        return new ResponseEntity<>(reply, HttpStatus.CREATED);
+        return new ResponseEntity<>(reply, HttpStatus.OK);
     }
 }
