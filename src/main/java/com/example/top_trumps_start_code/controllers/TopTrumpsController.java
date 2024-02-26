@@ -1,8 +1,10 @@
 package com.example.top_trumps_start_code.controllers;
 
 import com.example.top_trumps_start_code.models.Card;
+import com.example.top_trumps_start_code.models.Deck;
 import com.example.top_trumps_start_code.models.Reply;
 import com.example.top_trumps_start_code.services.TopTrumpService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,5 +29,11 @@ public class TopTrumpsController {
         // return new ResponseEntity<>(reply, HttpStatus.OK);
         Reply reply = topTrumpService.checkWinner(match);
         return new ResponseEntity<>(reply, HttpStatus.CREATED);
+    }
+
+    @PostMapping(value = "/deckGame")
+    public ResponseEntity<Deck> createDeck(){
+        Deck deck = new Deck();
+        return new ResponseEntity<>(deck,HttpStatus.CREATED);
     }
 }
